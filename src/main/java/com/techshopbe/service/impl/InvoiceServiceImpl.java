@@ -26,15 +26,10 @@ import com.techshopbe.service.InvoiceService;
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
-	@Autowired
 	ProductRepository productRepository;
-	@Autowired
 	UserRepository userRepository;
-	@Autowired
 	InvoiceRepository invoiceRepository;
-	@Autowired
 	ShippingInfoRepository shippingInfoRepository;
-	@Autowired
 	DetailedInvoiceRepository detailedInvoiceRepository;
 
 	@Override

@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.techshopbe.entity.Role;
@@ -19,9 +21,7 @@ import com.techshopbe.repository.UserRepository;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
-	@Autowired
 	private UserRepository userRepository;
-	@Autowired
 	private RoleRepository roleRepository;
 
 	@Override
@@ -39,6 +39,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		CustomUserDetails customUserDetails = new CustomUserDetails(email, user.getPswd(), user.getUserID(),
 				authorities);
 		return customUserDetails;
+	}
+
+	public PasswordEncoder getPasswordEncoder(){
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
 }

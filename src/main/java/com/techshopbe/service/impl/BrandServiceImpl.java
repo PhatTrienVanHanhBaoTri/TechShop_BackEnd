@@ -13,7 +13,6 @@ import com.techshopbe.service.BrandService;
 
 @Service
 public class BrandServiceImpl implements BrandService {
-	@Autowired
 	private BrandRepository brandRepository;
 
 	@Override

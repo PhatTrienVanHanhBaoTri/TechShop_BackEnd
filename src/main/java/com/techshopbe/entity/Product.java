@@ -1,10 +1,10 @@
 package com.techshopbe.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -31,8 +31,8 @@ public class Product {
 	}
 
 	public Product(int productID, int categoryID, int brandID, float productRate, String productName, int productPrice,
-			String shortDescrip, String longDescrip, int stock, int warranty, int purchased, String specs,
-			String shortTech, int totalReviews, String images) {
+				   String shortDescrip, String longDescrip, int stock, int warranty, int purchased, String specs,
+				   String shortTech, int totalReviews, String images) {
 		super();
 		this.productID = productID;
 		this.categoryID = categoryID;

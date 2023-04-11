@@ -1,17 +1,24 @@
 package com.techshopbe.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userID;
@@ -25,10 +32,10 @@ public class User {
 	private int roleID;
 	private String gender;
 	private int totalInvoices = 0;
-	
+
 	public User() {};
 	public User(int userID, String email, String fullname, String pswd, String dOB, String phone, String address,
-			int roleID, String gender, int totalInvoices) {
+				int roleID, String gender, int totalInvoices) {
 		super();
 		this.userID = userID;
 		this.email = email;
@@ -41,7 +48,7 @@ public class User {
 		this.gender = gender;
 		this.totalInvoices = totalInvoices;
 	}
-	
+
 	public int getTotalInvoices() {
 		return totalInvoices;
 	}
@@ -102,7 +109,42 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	
 
-	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> roles = new ArrayList<>();
+		roles.add(new SimpleGrantedAuthority(Integer.toString(this.roleID)));
+		return roles;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.pswd;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

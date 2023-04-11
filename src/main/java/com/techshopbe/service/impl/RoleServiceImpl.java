@@ -11,8 +11,7 @@ import com.techshopbe.service.RoleService;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-	
-	@Autowired
+
 	private RoleRepository roleRepository;
 
 	@Override
