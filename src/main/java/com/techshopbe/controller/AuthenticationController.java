@@ -10,10 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.techshopbe.dto.AuthenticationDTO;
 
@@ -26,14 +23,15 @@ public class AuthenticationController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@PostMapping("/login")
 	public Object login(@RequestBody AuthenticationDTO authenDTO) {
 		try {
+			System.out.println(authenDTO.getEmail());
 			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenDTO.getEmail(), authenDTO.getPswd()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			Date dateNow = new Date();
-			
+
 			String token = Jwts.builder()
 					.setSubject(authenDTO.getEmail())
 					.setIssuedAt(dateNow)
@@ -48,5 +46,10 @@ public class AuthenticationController {
 		catch (Exception e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@GetMapping("/test")
+	public Object test(){
+		return ResponseEntity.ok("31232131");
 	}
 }

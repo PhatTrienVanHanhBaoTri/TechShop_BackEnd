@@ -15,7 +15,6 @@ import com.techshopbe.service.UserService;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
 	private UserRepository userRepository;
 
 	@Override

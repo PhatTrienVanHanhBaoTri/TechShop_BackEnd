@@ -19,7 +19,6 @@ import com.techshopbe.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	@Autowired
 	private ProductRepository productRepository;
 
 	@Override

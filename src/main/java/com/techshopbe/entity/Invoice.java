@@ -1,10 +1,10 @@
 package com.techshopbe.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "INVOICE")
@@ -23,7 +23,7 @@ public class Invoice {
 
 	public Invoice() {
 	}
-	
+
 
 	public String getStatusInvoice() {
 		return statusInvoice;
@@ -46,7 +46,7 @@ public class Invoice {
 
 
 	public Invoice(int invoiceID, int userID, int totalCost, String invoiceDate, String shippingDate, String note,
-			boolean otherShippingAddress, String statusInvoice, String userInvoiceIndex) {
+				   boolean otherShippingAddress, String statusInvoice, String userInvoiceIndex) {
 		super();
 		this.invoiceID = invoiceID;
 		this.userID = userID;
@@ -115,6 +115,6 @@ public class Invoice {
 	public void setOtherShippingAddress(boolean otherShippingAddress) {
 		this.otherShippingAddress = otherShippingAddress;
 	}
-	
-	
+
+
 }

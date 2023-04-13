@@ -1,15 +1,15 @@
 package com.techshopbe.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "DETAILEDINVOICE")
 public class DetailedInvoice {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int detailedInvoiceID;
@@ -105,5 +105,5 @@ public class DetailedInvoice {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	
+
 }
