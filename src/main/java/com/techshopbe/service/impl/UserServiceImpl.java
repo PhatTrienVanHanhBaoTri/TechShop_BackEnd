@@ -2,6 +2,7 @@ package com.techshopbe.service.impl;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,10 @@ import com.techshopbe.repository.UserRepository;
 import com.techshopbe.service.UserService;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	public List<User> getAll() {

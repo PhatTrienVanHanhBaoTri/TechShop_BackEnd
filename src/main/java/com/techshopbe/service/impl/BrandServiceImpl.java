@@ -3,6 +3,7 @@ package com.techshopbe.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,9 @@ import com.techshopbe.repository.BrandRepository;
 import com.techshopbe.service.BrandService;
 
 @Service
+@RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
-	private BrandRepository brandRepository;
+	private final BrandRepository brandRepository;
 
 	@Override
 	public List<Brand> getAll() {

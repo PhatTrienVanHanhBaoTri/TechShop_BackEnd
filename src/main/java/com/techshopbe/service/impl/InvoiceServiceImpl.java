@@ -3,6 +3,7 @@ package com.techshopbe.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,13 +25,14 @@ import com.techshopbe.security.CustomUserDetails;
 import com.techshopbe.service.InvoiceService;
 
 @Service
+@RequiredArgsConstructor
 public class InvoiceServiceImpl implements InvoiceService {
 
-	ProductRepository productRepository;
-	UserRepository userRepository;
-	InvoiceRepository invoiceRepository;
-	ShippingInfoRepository shippingInfoRepository;
-	DetailedInvoiceRepository detailedInvoiceRepository;
+	private final ProductRepository productRepository;
+	private final UserRepository userRepository;
+	private final InvoiceRepository invoiceRepository;
+	private final ShippingInfoRepository shippingInfoRepository;
+	private final DetailedInvoiceRepository detailedInvoiceRepository;
 
 	@Override
 	public void add(String invoice) {
