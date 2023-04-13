@@ -55,12 +55,14 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping(value = "")
+	@PostMapping(value = "/register")
 	public Object add(@RequestBody User user) {
 		try {
+			System.out.println(user);
 			userService.add(user);
 			return new ResponseEntity<String>("Add Successfully!", HttpStatus.CREATED);
 		} catch(Exception e) {
+			System.out.println(e.getMessage());
 			if(!e.getMessage().equals("Email already existed")) {
 				return new ResponseEntity<String>("Add Failed", HttpStatus.BAD_REQUEST);
 			}

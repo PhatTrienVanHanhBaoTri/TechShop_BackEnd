@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -20,9 +21,10 @@ import com.techshopbe.service.ReviewService;
 
 
 @Service
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-	ReviewRepository reviewRepository;
+	private final ReviewRepository reviewRepository;
 
 	@Override
 	public List<ReviewDTO> getAllReviewsByProductID(int productID, Pageable page) {

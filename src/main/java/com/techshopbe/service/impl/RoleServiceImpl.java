@@ -2,6 +2,7 @@ package com.techshopbe.service.impl;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,10 @@ import com.techshopbe.repository.RoleRepository;
 import com.techshopbe.service.RoleService;
 
 @Service
+@RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-	private RoleRepository roleRepository;
+	private final RoleRepository roleRepository;
 
 	@Override
 	public Role getById(int id) {
