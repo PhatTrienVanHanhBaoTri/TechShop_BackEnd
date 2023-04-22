@@ -14,10 +14,10 @@ import com.techshopbe.repository.UserRepository;
 import com.techshopbe.service.UserService;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-	private final UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public List<User> getAll() {
@@ -31,6 +31,11 @@ public class UserServiceImpl implements UserService {
 				user.getEmail(), user.getGender(), user.getDOB());
 
 		return userDTO;
+	}
+
+	@Override
+	public User getByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 	@Override

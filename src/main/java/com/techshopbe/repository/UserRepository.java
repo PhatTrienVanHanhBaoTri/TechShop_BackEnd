@@ -9,8 +9,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.techshopbe.dto.ShippingInfoDTO;
 import com.techshopbe.entity.User;
+import org.springframework.stereotype.Repository;
 
-@RepositoryRestResource
+@Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	User findByEmail(String email);
