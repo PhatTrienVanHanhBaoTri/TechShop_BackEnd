@@ -2,6 +2,7 @@ package com.techshopbe.controller;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import com.techshopbe.service.BrandService;
 
 @RestController
 @RequestMapping("api/v1/brand")
+@Slf4j
 public class BrandController {
 	@Autowired
 	BrandService brandService;
@@ -25,6 +27,7 @@ public class BrandController {
 
 			return new ResponseEntity<List<Brand>>(brandList, HttpStatus.OK);
 		} catch (Exception e) {
+			log.trace(e.getMessage());
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
 		}
 	}
