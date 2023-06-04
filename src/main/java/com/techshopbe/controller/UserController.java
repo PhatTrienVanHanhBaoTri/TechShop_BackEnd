@@ -54,21 +54,6 @@ public class UserController {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	@PostMapping(value = "/register")
-	public Object add(@RequestBody User user) {
-		try {
-			System.out.println(user);
-			userService.add(user);
-			return new ResponseEntity<String>("Add Successfully!", HttpStatus.CREATED);
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			if(!e.getMessage().equals("Email already existed")) {
-				return new ResponseEntity<String>("Add Failed", HttpStatus.BAD_REQUEST);
-			}
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-	}
 	@DeleteMapping(value = "/{id}")
 	public Object delete(@PathVariable int id) {
 		try {

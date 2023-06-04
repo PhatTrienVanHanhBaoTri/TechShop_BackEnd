@@ -2,7 +2,9 @@ package com.techshopbe.controller;
 
 import java.util.Date;
 
+import com.techshopbe.dto.AuthenticationRequestDTO;
 import com.techshopbe.dto.StringResponseDTO;
+import com.techshopbe.dto.UserRegisterDTO;
 import com.techshopbe.entity.User;
 import com.techshopbe.security.JwtService;
 import com.techshopbe.service.UserService;
@@ -35,16 +37,16 @@ public class AuthenticationController {
 	private final JwtService jwtService;
 
 	@PostMapping("/login")
-	public Object login(@RequestBody AuthenticationDTO request) {
+	public Object login(@RequestBody AuthenticationRequestDTO request) {
 		try{
 			Authentication authentication =  authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(
-							request.getEmail(),
-							request.getPswd()
+							request.getUserEmail(),
+							request.getPassword()
 					)
 			);
 
-			User user = userService.getByEmail(request.getEmail());
+			User user = userService.getByEmail(request.getUserEmail());
 
 			String jwtToken = jwtService.generateJwtToken(user);
 			return ResponseEntity.ok(AuthenticationDTO.builder()
@@ -62,8 +64,17 @@ public class AuthenticationController {
 		}
 	}
 
-	@GetMapping("/test")
-	public Object test(){
-		return ResponseEntity.ok("31232131");
+	@PostMapping(value = "/register")
+	public Object add(@RequestBody UserRegisterDTO userDTO) {
+		try {
+			userService.add(new User(userDTO));
+			return new ResponseEntity<String>("Add Successfully!", HttpStatus.CREATED);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			if(!e.getMessage().equals("Email already existed")) {
+				return new ResponseEntity<String>("Add Failed", HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 }

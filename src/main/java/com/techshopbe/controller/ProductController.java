@@ -3,16 +3,14 @@ package com.techshopbe.controller;
 import java.io.IOException;
 import java.util.List;
 
+import com.techshopbe.entity.Product;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.techshopbe.dto.DetailedProductDTO;
 import com.techshopbe.dto.ProductDTO;
@@ -20,10 +18,21 @@ import com.techshopbe.service.ProductService;
 
 
 @RestController
+@Slf4j
 @RequestMapping("api/v1/product")
 public class ProductController {
 	@Autowired
 	private ProductService productService;
+
+	@PostMapping(value = "/addNewProduct")
+	public ResponseEntity<Object> addNewProduct(@RequestBody Product product){
+		try {
+			return ResponseEntity.ok(productService.addProduct(product));
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+		}
+	}
 
 	@GetMapping(value = "")
 	public Object index() {
@@ -31,7 +40,8 @@ public class ProductController {
 			List<ProductDTO> productList = productService.getAll();
 			return new ResponseEntity<List<ProductDTO>>(productList, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}
 	}
 
@@ -41,7 +51,8 @@ public class ProductController {
 			DetailedProductDTO detailedProduct = productService.getDetailedProduct(productID);
 			return new ResponseEntity<DetailedProductDTO>(detailedProduct, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}
 	}
 
@@ -51,7 +62,8 @@ public class ProductController {
 			List<ProductDTO> productsByCategory = productService.getProductsByCategory(categorySlug);
 			return new ResponseEntity<List<ProductDTO>>(productsByCategory, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}
 	}
 
@@ -62,7 +74,8 @@ public class ProductController {
 
 			return new ResponseEntity<List<ProductDTO>>(topPurchasedProducts, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}
 	}
 
@@ -73,7 +86,8 @@ public class ProductController {
 
 			return new ResponseEntity<List<ProductDTO>>(trendingProducts, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}
 	}
 
@@ -85,7 +99,8 @@ public class ProductController {
 
 			return new ResponseEntity<List<ProductDTO>>(relatedCategoryProducts, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}
 	}
 	
@@ -97,7 +112,8 @@ public class ProductController {
 
 			return new ResponseEntity<List<ProductDTO>>(relatedBrandProducts, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
 		}
 	}
 	
