@@ -23,9 +23,10 @@ import com.techshopbe.service.ProductService;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 	private final ProductRepository productRepository;
-
-	public void addProduct(Product product){
+	@Override
+	public Product addProduct(Product product){
 		productRepository.save(product);
+		return product;
 	}
 
 	@Override

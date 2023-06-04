@@ -1,5 +1,7 @@
 package com.techshopbe.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.techshopbe.dto.ProductDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ import lombok.Setter;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private int productID;
 	private int categoryID;
 	private int brandID;
