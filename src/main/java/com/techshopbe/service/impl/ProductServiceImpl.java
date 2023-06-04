@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.techshopbe.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -22,6 +23,10 @@ import com.techshopbe.service.ProductService;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 	private final ProductRepository productRepository;
+
+	public void addProduct(Product product){
+		productRepository.save(product);
+	}
 
 	@Override
 	public List<ProductDTO> getAll() {

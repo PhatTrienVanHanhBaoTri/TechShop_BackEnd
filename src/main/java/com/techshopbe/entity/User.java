@@ -1,5 +1,7 @@
 package com.techshopbe.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.techshopbe.dto.UserRegisterDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -47,6 +49,18 @@ public class User implements UserDetails {
 		this.roleID = roleID;
 		this.gender = gender;
 		this.totalInvoices = totalInvoices;
+	}
+
+	public User(UserRegisterDTO userDTO) {
+		this.email = userDTO.getEmail();
+		this.fullname = userDTO.getFullname();
+		this.pswd = userDTO.getPswd();
+		DOB = userDTO.getDOB();
+		this.phone = userDTO.getPhone();
+		this.address = userDTO.getPhone();
+		this.roleID = 2;
+		this.gender = userDTO.getGender();
+		this.totalInvoices = 0;
 	}
 
 	public int getTotalInvoices() {
@@ -112,6 +126,7 @@ public class User implements UserDetails {
 
 
 	@Override
+	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<SimpleGrantedAuthority> roles = new ArrayList<>();
 		roles.add(new SimpleGrantedAuthority(Integer.toString(this.roleID)));
@@ -119,31 +134,37 @@ public class User implements UserDetails {
 	}
 
 	@Override
+	@JsonIgnore
 	public String getPassword() {
 		return this.pswd;
 	}
 
 	@Override
+	@JsonIgnore
 	public String getUsername() {
 		return this.email;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isEnabled() {
 		return true;
 	}
