@@ -45,7 +45,7 @@ public class ProductController {
 		}
 	}
 
-	@PutMapping(value = "/{productID}")
+	@DeleteMapping(value = "/{productID}")
 	public ResponseEntity<Object> deleteProduct(@PathVariable int productID){
 		try {
 			productService.deleteProduct(productID);
