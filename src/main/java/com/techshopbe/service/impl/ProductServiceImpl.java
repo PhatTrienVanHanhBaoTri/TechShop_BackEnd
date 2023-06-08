@@ -1,17 +1,12 @@
 package com.techshopbe.service.impl;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.techshopbe.dto.UpdateProductDTO;
 import com.techshopbe.entity.Product;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StreamUtils;
 
 import com.techshopbe.dto.DetailedProductDTO;
 import com.techshopbe.dto.ProductDTO;
@@ -27,6 +22,24 @@ public class ProductServiceImpl implements ProductService {
 	public Product addProduct(Product product){
 		productRepository.save(product);
 		return product;
+	}
+
+	@Override
+	public DetailedProductDTO updateProduct(int productID, UpdateProductDTO product) {
+		productRepository.udpateProductInfo(productID,
+				product.getCategoryID(), product.getBrandID(),
+				product.getProductName(), product.getProductPrice(),
+				product.getShortDescrip(), product.getLongDescrip(),
+				product.getStock(), product.getWarranty(),
+				product.getSpecName1(), product.getSpec1(), product.getSpecName2(), product.getSpec2(), product.getSpecName3(), product.getSpec3(), product.getSpecName4(), product.getSpec4(),
+				product.getShortTech(), product.getImages());
+
+		return getDetailedProduct(productID);
+	}
+
+	@Override
+	public void deleteProduct(int productID) {
+		productRepository.deleteById(productID);
 	}
 
 	@Override

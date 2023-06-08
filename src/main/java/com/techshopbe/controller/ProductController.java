@@ -3,6 +3,7 @@ package com.techshopbe.controller;
 import java.io.IOException;
 import java.util.List;
 
+import com.techshopbe.dto.UpdateProductDTO;
 import com.techshopbe.entity.Product;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,31 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@PostMapping(value = "/addNewProduct")
+	@PostMapping(value = "")
 	public ResponseEntity<Object> addNewProduct(@RequestBody Product product){
 		try {
-			return ResponseEntity.ok(productService.addProduct(product));
+			return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(product));
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+		}
+	}
+
+	@PutMapping(value = "/{productID}")
+	public ResponseEntity<Object> updateProduct(@RequestBody UpdateProductDTO product, @PathVariable int productID){
+		try {
+			return ResponseEntity.ok(productService.updateProduct(productID, product));
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+		}
+	}
+
+	@DeleteMapping(value = "/{productID}")
+	public ResponseEntity<Object> deleteProduct(@PathVariable int productID){
+		try {
+			productService.deleteProduct(productID);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body("");
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
