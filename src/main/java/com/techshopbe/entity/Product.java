@@ -1,7 +1,6 @@
 package com.techshopbe.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.techshopbe.dto.ProductDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

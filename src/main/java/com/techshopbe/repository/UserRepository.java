@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT new com.techshopbe.dto.ShippingInfoDTO(u.fullname, u.phone, u.address) FROM User u WHERE u.email = ?1")
 	ShippingInfoDTO findShippingInfoByEmail(String email);
 	
-	@Query("SELECT totalInvoices FROM User u WHERE u.email = ?1")
+	@Query("SELECT u.totalInvoices FROM User u WHERE u.email = ?1")
 	int findTotalInvoicesByEmail(String email);
 
 	@Modifying

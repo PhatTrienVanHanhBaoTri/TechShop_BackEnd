@@ -6,9 +6,11 @@ import com.techshopbe.dto.AuthenticationRequestDTO;
 import com.techshopbe.dto.StringResponseDTO;
 import com.techshopbe.dto.UserRegisterDTO;
 import com.techshopbe.entity.User;
+import com.techshopbe.exception.UserNotFoundException;
 import com.techshopbe.security.JwtService;
 import com.techshopbe.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +31,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/auth")
 public class AuthenticationController {
-
-
 	private final AuthenticationManager authenticationManager;
 	private final UserService userService;
-
 	private final JwtService jwtService;
 
 	@PostMapping("/login")
@@ -76,5 +75,16 @@ public class AuthenticationController {
 			}
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@PostMapping(value = "/forgotPassword/{userEmail}")
+	public ResponseEntity<Object> forgotPassword(@PathVariable String userEmail){
+		try {
+			userService.forgotPassword(userEmail);
+		}
+		catch (UserNotFoundException usnfe){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StringResponseDTO(usnfe.getMessage()));
+		}
+		return ResponseEntity.ok("");
 	}
 }

@@ -13,4 +13,5 @@ public interface UserService {
 	void add(User user) throws Exception;
 	void delete(int id);
 	ShippingInfoDTO getShippingInfoByEmail(String email);
+	void forgotPassword(String userEmail);
 }
