@@ -2,10 +2,10 @@ package com.techshopbe.controller;
 
 import java.util.Date;
 
-import com.techshopbe.dto.AuthenticationRequestDTO;
-import com.techshopbe.dto.StringResponseDTO;
-import com.techshopbe.dto.UserRegisterDTO;
+import com.techshopbe.dto.*;
 import com.techshopbe.entity.User;
+import com.techshopbe.exception.OtpExpiredException;
+import com.techshopbe.exception.OtpIncorrectException;
 import com.techshopbe.exception.UserNotFoundException;
 import com.techshopbe.security.JwtService;
 import com.techshopbe.service.UserService;
@@ -21,8 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import com.techshopbe.dto.AuthenticationDTO;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -84,6 +82,20 @@ public class AuthenticationController {
 		}
 		catch (UserNotFoundException usnfe){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StringResponseDTO(usnfe.getMessage()));
+		}
+		return ResponseEntity.ok("");
+	}
+
+	@PutMapping(value = "/resetPassword")
+	public ResponseEntity<Object> forgotPassword(@RequestBody ResetPasswordDTO dto){
+		try {
+			userService.resetPassword(dto);
+		}
+		catch (UserNotFoundException e){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StringResponseDTO(e.getMessage()));
+		}
+		catch (OtpIncorrectException | OtpExpiredException e){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StringResponseDTO(e.getMessage()));
 		}
 		return ResponseEntity.ok("");
 	}
