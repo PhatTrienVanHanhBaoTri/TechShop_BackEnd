@@ -5,16 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationDTO {
-	private String email;
-	private int userID;
-	private int roleID;
-	private String fullName;
-	private String jwtToken;
+public class ResetPasswordDTO {
+    private String newPassword;
+    private String OTP;
+    private String userEmail;
 }

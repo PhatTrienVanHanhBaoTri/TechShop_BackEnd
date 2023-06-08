@@ -6,8 +6,10 @@ import javax.swing.SortOrder;
 
 import com.techshopbe.dto.DetailedProductDTO;
 import com.techshopbe.dto.ProductDTO;
+import com.techshopbe.entity.Product;
 
 public interface ProductService {
+	public Product addProduct(Product product);
 	public List<ProductDTO> getAll();
 	public List<ProductDTO> getTrendingProducts();
 	public List<ProductDTO> getProductsByCategory(String categorySlug);

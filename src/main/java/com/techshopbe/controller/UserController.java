@@ -3,6 +3,7 @@ package com.techshopbe.controller;
 import java.io.Console;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,10 @@ import com.techshopbe.entity.User;
 import com.techshopbe.service.UserService;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/user")
 public class UserController {
-
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
 	@GetMapping(value = "")
 	public Object index() {
@@ -41,7 +41,7 @@ public class UserController {
 		}
 	}
 	@GetMapping(value = "/shippingInfo")
-	public Object getShippinhInfo() {
+	public Object getShippingInfo() {
 		try {
 			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			String email = userDetails.getUsername();
@@ -52,21 +52,6 @@ public class UserController {
 				
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@PostMapping(value = "/register")
-	public Object add(@RequestBody User user) {
-		try {
-			System.out.println(user);
-			userService.add(user);
-			return new ResponseEntity<String>("Add Successfully!", HttpStatus.CREATED);
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			if(!e.getMessage().equals("Email already existed")) {
-				return new ResponseEntity<String>("Add Failed", HttpStatus.BAD_REQUEST);
-			}
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	@DeleteMapping(value = "/{id}")
