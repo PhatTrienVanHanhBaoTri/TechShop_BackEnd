@@ -13,7 +13,7 @@ import com.techshopbe.entity.User;
 @RepositoryRestResource
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer>{
 	
-	@Query("SELECT invoiceID FROM Invoice i WHERE i.userInvoiceIndex = ?1")
+	@Query("SELECT i.invoiceID FROM Invoice i WHERE i.userInvoiceIndex = ?1")
 	int findInvoiceIDByUserInvoiceIndex(String userInvoiceIndex);
 	
 	List<Invoice> findByUserID(int userID);
