@@ -62,11 +62,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductDTO> getTopPurchasedProducts(int categoryID) {
 
 		List<ProductDTO> productsByCategory = productRepository.findTopPurchasedByCategoryId(categoryID);
-		List<ProductDTO> topPurchasedProducts = new ArrayList<ProductDTO>();
-		for (int i = 0; i < 5; i++) {
-			topPurchasedProducts.add(productsByCategory.get(i));
-		}
-		return topPurchasedProducts;
+		return productsByCategory.stream().limit(5).toList();
 
 	}
 
@@ -90,22 +86,13 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductDTO> getRelatedCategoryProducts(int productID) {
 		List<ProductDTO> productsByCategory = productRepository.findRelatedProductsByCategory(productID);
-		List<ProductDTO> relatedProducts = new ArrayList<ProductDTO>();
-		for (int i = 0; i < 4; i++) {
-			relatedProducts.add(productsByCategory.get(i));
-		}
-		return relatedProducts;
+		return productsByCategory.stream().limit(4).toList();
 	}
 
 	@Override
 	public List<ProductDTO> getRelatedBrandProducts(int productID) {
 		List<ProductDTO> productsByBrand = productRepository.findRelatedProductsByBrand(productID);
-		List<ProductDTO> relatedProducts = new ArrayList<ProductDTO>();
-		// System.out.println(productsByBrand.size());
-		for (int i = 0; i < productsByBrand.size() && i < 4; i++) {
-			relatedProducts.add(productsByBrand.get(i));
-		}
-		return relatedProducts;
+		return productsByBrand.stream().limit(4).toList();
 	}
 
 	@Override
