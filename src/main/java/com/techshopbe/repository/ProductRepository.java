@@ -42,10 +42,20 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("SELECT p.productPrice FROM Product p where p.productID = ?1")
 	int findProductPriceByProductID(int id);
 
-	@Query("SELECT new com.techshopbe.dto.ProductDTO(p.productID, c.categoryName, b.brandName, p.productRate, p.productName, p.productPrice, p.shortDescrip, p.longDescrip,p.stock, p.warranty, p.purchased, p.specName1, p.spec1, p.specName2, p.spec2, p.specName3, p.spec3, p.specName4, p.spec4, c.categorySlug, p.images) FROM Product p, Category c, Brand b WHERE p.categoryID = c.categoryID AND p.brandID = b.brandID AND p.productID != ?1 AND c.categoryID = (SELECT c.categoryID FROM Product p where p.productID = ?1) ")
+	@Query("SELECT new com.techshopbe.dto.ProductDTO(p.productID, c.categoryName, b.brandName, p.productRate, p.productName, p.productPrice, p.shortDescrip, p.longDescrip,p.stock, p.warranty, p.purchased, p.specName1, p.spec1, p.specName2, p.spec2, p.specName3, p.spec3, p.specName4, p.spec4, c.categorySlug, p.images) " +
+			"FROM Product p, Category c, Brand b " +
+			"WHERE p.categoryID = c.categoryID " +
+			"AND p.brandID = b.brandID " +
+			"AND p.productID != ?1 " +
+			"AND c.categoryID = (SELECT p.categoryID FROM Product p where p.productID = ?1) ")
 	List<ProductDTO> findRelatedProductsByCategory(int productID);
 	
-	@Query("SELECT new com.techshopbe.dto.ProductDTO(p.productID, c.categoryName, b.brandName, p.productRate, p.productName, p.productPrice, p.shortDescrip, p.longDescrip,p.stock, p.warranty, p.purchased, p.specName1, p.spec1, p.specName2, p.spec2, p.specName3, p.spec3, p.specName4, p.spec4, c.categorySlug, p.images) FROM Product p, Category c, Brand b WHERE p.categoryID = c.categoryID AND p.brandID = b.brandID AND p.productID != ?1 AND b.brandID = (SELECT b.brandID FROM Product p where p.productID = ?1) ")
+	@Query("SELECT new com.techshopbe.dto.ProductDTO(p.productID, c.categoryName, b.brandName, p.productRate, p.productName, p.productPrice, p.shortDescrip, p.longDescrip,p.stock, p.warranty, p.purchased, p.specName1, p.spec1, p.specName2, p.spec2, p.specName3, p.spec3, p.specName4, p.spec4, c.categorySlug, p.images) " +
+			"FROM Product p, Category c, Brand b " +
+			"WHERE p.categoryID = c.categoryID " +
+			"AND p.brandID = b.brandID " +
+			"AND p.productID != ?1 " +
+			"AND b.brandID = (SELECT p.brandID FROM Product p where p.productID = ?1) ")
 	List<ProductDTO> findRelatedProductsByBrand(int productID);
 	
 	@Query("SELECT new com.techshopbe.dto.RatingInfoDTO(p.productRate, p.totalReviews) FROM Product p WHERE p.productID = ?1")

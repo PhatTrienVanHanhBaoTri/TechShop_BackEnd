@@ -113,7 +113,7 @@ public class ProductController {
 		}
 	}
 
-	@GetMapping(value = "related-category/{productID}")
+	@GetMapping(value = "/related-category/{productID}")
 	public Object getRelatedCategoryProducts(@PathVariable int productID) {
 		
 		try {
@@ -126,7 +126,7 @@ public class ProductController {
 		}
 	}
 	
-	@GetMapping(value = "related-brand/{productID}")
+	@GetMapping(value = "/related-brand/{productID}")
 	public Object getRelatedBrandProducts(@PathVariable int productID) {
 		
 		try {
