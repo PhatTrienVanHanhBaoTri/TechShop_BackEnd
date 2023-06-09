@@ -38,12 +38,12 @@ public class AuthenticationController {
 		try{
 			Authentication authentication =  authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(
-							request.getUserEmail(),
-							request.getPassword()
+							request.getEmail(),
+							request.getPswd()
 					)
 			);
 
-			User user = userService.getByEmail(request.getUserEmail());
+			User user = userService.getByEmail(request.getEmail());
 
 			String jwtToken = jwtService.generateJwtToken(user);
 			return ResponseEntity.ok(AuthenticationDTO.builder()
