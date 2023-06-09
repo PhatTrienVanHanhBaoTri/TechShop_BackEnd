@@ -40,17 +40,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO getById(int id) {
-		User user = userRepository.findById(id).get();
-		UserDTO userDTO = new UserDTO(user.getUserID(), user.getFullname(), user.getPhone(), user.getAddress(),
-				user.getEmail(), user.getGender(), user.getDOB());
-
-		return userDTO;
+	public User getById(int id) {
+		return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 	}
 
 	@Override
 	public User getByEmail(String email) {
-		return userRepository.findByEmail(email);
+		User user = userRepository.findByEmail(email);
+		if (user == null)
+			throw new UserNotFoundException();
+		return user;
 	}
 
 	@Override

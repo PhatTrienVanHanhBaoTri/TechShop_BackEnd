@@ -11,7 +11,7 @@ import com.techshopbe.exception.OtpIncorrectException;
 
 public interface UserService {
 	List<User> getAll();
-	UserDTO getById(int id);
+	User getById(int id);
 	User getByEmail(String email);
 	void add(User user) throws Exception;
 	void delete(int id);
