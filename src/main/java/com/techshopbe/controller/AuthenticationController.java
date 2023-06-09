@@ -83,7 +83,7 @@ public class AuthenticationController {
 		catch (UserNotFoundException usnfe){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StringResponseDTO(usnfe.getMessage()));
 		}
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok("Email sent!");
 	}
 
 	@PutMapping(value = "/resetPassword")

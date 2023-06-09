@@ -35,7 +35,16 @@ public class InvoiceController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StringResponseDTO("Order Failed"));
 		}
 	}
-	
+	@GetMapping(value = "")
+	public Object getAllInvoices() {
+
+		try {
+			List<Invoice> userInvoices = invoiceService.getAllInvoices();
+			return new ResponseEntity<List<Invoice>>(userInvoices, HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
+		}
+	}
 	@GetMapping(value = "/user")
 	public Object getAllUserInvoices() {
 		
