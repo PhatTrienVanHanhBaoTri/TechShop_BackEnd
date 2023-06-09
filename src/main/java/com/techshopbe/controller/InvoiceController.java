@@ -2,6 +2,9 @@ package com.techshopbe.controller;
 
 import java.util.List;
 
+import com.techshopbe.dto.StringResponseDTO;
+import com.techshopbe.exception.InvoiceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +21,18 @@ import com.techshopbe.service.InvoiceService;
 
 @RestController
 @RequestMapping("api/v1/invoice")
-
+@Slf4j
 public class InvoiceController {
 	@Autowired
 	InvoiceService invoiceService;
-	
 	@PostMapping(value = "")
-	public Object add(@RequestBody String invoice) {
+	public Object add(@RequestBody InvoiceDTO invoice) {
 		try {
 			invoiceService.add(invoice);
-			return new ResponseEntity<String>("Order Successfully!", HttpStatus.CREATED);
+			return ResponseEntity.status(HttpStatus.CREATED).body(new StringResponseDTO("Order Successfully"));
 		} catch(Exception e) {
-			
-			return new ResponseEntity<String>("Order Failed", HttpStatus.BAD_REQUEST);
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StringResponseDTO("Order Failed"));
 		}
 	}
 	
@@ -54,6 +56,19 @@ public class InvoiceController {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 
+	@GetMapping(value = "/{couponID}/user/{userID}")
+	public ResponseEntity<Object> getCouponByIDAndUserID(@PathVariable int couponID, @PathVariable int userID){
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(invoiceService.getByCouponIDAndUserID(couponID, userID));
+		}
+		catch (InvoiceNotFoundException e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StringResponseDTO(e.getMessage()));
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+		}
+	}
 }

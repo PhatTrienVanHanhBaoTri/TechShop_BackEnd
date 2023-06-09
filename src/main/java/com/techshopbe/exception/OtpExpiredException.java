@@ -5,6 +5,6 @@ public class OtpExpiredException extends Exception{
         super(message);
     }
     public OtpExpiredException(){
-        super("OTP đã hết hạn.");
+        super("OTP has expired");
     }
 }

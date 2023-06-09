@@ -25,6 +25,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	int findTotalInvoicesByEmail(String email);
 
 	@Modifying
+	@Transactional
     @Query("UPDATE User u SET u.totalInvoices = ?1 WHERE u.email = ?2")
 	void updateTotalInvoicesByEmail(int totalInvoices, String email);
 
