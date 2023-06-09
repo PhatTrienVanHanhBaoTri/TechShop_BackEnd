@@ -12,7 +12,6 @@ import com.techshopbe.exception.OtpExpiredException;
 import com.techshopbe.exception.OtpIncorrectException;
 import com.techshopbe.exception.UserNotFoundException;
 import com.techshopbe.repository.OtpRepository;
-import com.techshopbe.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;

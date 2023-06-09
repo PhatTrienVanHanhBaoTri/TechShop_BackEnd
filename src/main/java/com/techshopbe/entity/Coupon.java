@@ -20,6 +20,7 @@ public class Coupon {
     @Id
     private int ID;
     private int value;
+    private String couponCode;
     private Date expiry;
     private CouponType couponType;
 }
