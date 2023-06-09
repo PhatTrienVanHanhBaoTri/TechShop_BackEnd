@@ -11,4 +11,5 @@ public interface InvoiceService {
 	public InvoiceDTO getByInvoiceID(int invoiceID);
 	public void updateReviewStatus(int invoiceID, int productID);
 	public Invoice getByCouponIDAndUserID(int couponID, int userID);
+	public List<Invoice> getAllInvoices();
 }

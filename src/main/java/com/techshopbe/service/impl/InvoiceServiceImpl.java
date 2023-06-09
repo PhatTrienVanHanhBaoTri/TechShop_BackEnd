@@ -186,4 +186,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public Invoice getByCouponIDAndUserID(int couponID, int userID) {
 		return invoiceRepository.findByUserIDAndCouponID(userID, couponID).orElseThrow(InvoiceNotFoundException::new);
 	}
+
+	@Override
+	public List<Invoice> getAllInvoices() {
+		return invoiceRepository.findAll();
+	}
 }
