@@ -51,11 +51,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductDTO> getTrendingProducts() {
 		List<ProductDTO> products = productRepository.findTrendingProducts();
-		List<ProductDTO> trendingProducts = new ArrayList<ProductDTO>();
-		for (int i = 0; i < 8; i++) {
-			trendingProducts.add(products.get(i));
-		}
-		return trendingProducts;
+		return products.stream().limit(8).toList();
 	}
 
 	@Override
