@@ -7,6 +7,6 @@ public class CouponNotFoundException extends NoSuchElementException {
         super(message);
     }
     public CouponNotFoundException(){
-        super("Không tìm thấy mã giảm giá bạn cần tìm");
+        super("Coupon does not exist");
     }
 }

@@ -5,6 +5,6 @@ public class OtpIncorrectException extends Exception{
         super(message);
     }
     public OtpIncorrectException(){
-        super("OTP không trùng khớp vui lòng kiểm tra lại.");
+        super("OTP is incorrect");
     }
 }

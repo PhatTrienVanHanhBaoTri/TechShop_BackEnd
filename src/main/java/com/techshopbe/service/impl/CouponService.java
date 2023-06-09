@@ -2,8 +2,10 @@ package com.techshopbe.service.impl;
 
 import com.techshopbe.dto.CouponDTO;
 import com.techshopbe.entity.Coupon;
+import com.techshopbe.entity.Invoice;
 import com.techshopbe.exception.CouponNotFoundException;
 import com.techshopbe.repository.CouponRepository;
+import com.techshopbe.service.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class CouponService {
     private final CouponRepository couponRepository;
-
     public Coupon findCouponByID(int id){
         return couponRepository.findCouponByID(id).orElseThrow(CouponNotFoundException::new);
     }

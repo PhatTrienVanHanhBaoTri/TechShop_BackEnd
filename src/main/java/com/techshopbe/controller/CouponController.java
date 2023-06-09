@@ -3,6 +3,7 @@ package com.techshopbe.controller;
 import com.techshopbe.dto.CouponDTO;
 import com.techshopbe.dto.StringResponseDTO;
 import com.techshopbe.exception.CouponNotFoundException;
+import com.techshopbe.exception.InvoiceNotFoundException;
 import com.techshopbe.service.impl.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class CouponController {
     @GetMapping(value = "/{couponID}")
     public ResponseEntity<Object> getCouponByID(@PathVariable int couponID){
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(couponService.findCouponByID(couponID));
+            return ResponseEntity.status(HttpStatus.OK).body(couponService.findCouponByID(couponID));
         }
         catch (CouponNotFoundException e) {
             log.error(e.getMessage());

@@ -1,6 +1,7 @@
 package com.techshopbe.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Integer>{
 	
 	@Query("SELECT i.invoiceID FROM Invoice i WHERE i.userInvoiceIndex = ?1")
 	int findInvoiceIDByUserInvoiceIndex(String userInvoiceIndex);
-	
 	List<Invoice> findByUserID(int userID);
 	Invoice findByInvoiceID(int invoiceID);
+	Optional<Invoice> findByUserIDAndCouponID(int userID, int couponID);
 }

@@ -1,8 +1,12 @@
 package com.techshopbe.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
+import com.techshopbe.entity.*;
+import com.techshopbe.exception.CouponNotFoundException;
+import com.techshopbe.exception.InvoiceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,9 +17,6 @@ import com.google.gson.Gson;
 import com.techshopbe.dto.DetailedInvoiceDTO;
 import com.techshopbe.dto.InvoiceDTO;
 import com.techshopbe.dto.ShippingInfoDTO;
-import com.techshopbe.entity.DetailedInvoice;
-import com.techshopbe.entity.Invoice;
-import com.techshopbe.entity.ShippingInfo;
 import com.techshopbe.repository.DetailedInvoiceRepository;
 import com.techshopbe.repository.InvoiceRepository;
 import com.techshopbe.repository.ProductRepository;
@@ -33,32 +34,28 @@ public class InvoiceServiceImpl implements InvoiceService {
 	private final InvoiceRepository invoiceRepository;
 	private final ShippingInfoRepository shippingInfoRepository;
 	private final DetailedInvoiceRepository detailedInvoiceRepository;
-
+	private final CouponService couponService;
 	@Override
-	public void add(String invoice) {
-		Gson g = new Gson();
-		InvoiceDTO invoiceDTO = g.fromJson(invoice, InvoiceDTO.class);
-
+	public void add(InvoiceDTO invoiceDTO) {
 		boolean otherShippingAddress = true;
 
-		// set email
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-
-		String email = userDetails.getUsername();
-		invoiceDTO.setEmail(email);
+		String email = invoiceDTO.getEmail();
+//		invoiceDTO.setEmail(email);
 
 		// set detailed invoice (calculate price and total price)
 		invoiceDTO.setDetailedInvoices(getDetailedInvoices(invoiceDTO.getDetailedInvoices()));
 
 		// set shipping info
-		if (invoiceDTO.getShippingInfo() == null) {
-			invoiceDTO.setShippingInfo(getShippingInfo(email));
+		if (invoiceDTO.getAddress() == null) {
+			ShippingInfoDTO shippingInfo = getShippingInfo(email);
+			invoiceDTO.setAddress(shippingInfo.getAddress());
+			invoiceDTO.setPhone(shippingInfo.getPhone());
+			invoiceDTO.setFullname(shippingInfo.getFullname());
 			otherShippingAddress = false;
 		}
 
 		// set total price of invoice
-		invoiceDTO.setTotalPrice(calculateTotalInvoiceCost(invoiceDTO.getDetailedInvoices()));
+		invoiceDTO.setTotalPrice(calculateTotalInvoiceCost(invoiceDTO.getDetailedInvoices(), invoiceDTO.getCouponID()));
 
 		/*
 		 * Insert new invoice
@@ -66,7 +63,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		// INVOICE userID, totalCost, invoiceDate, shippingDate, note,
 		// otherShippingAddress, statusInvoice
 		// shipping Date: now + 10 ngày
-		int userID = userDetails.getUserID();
+		int userID = invoiceDTO.getUserID();
 		LocalDateTime invoiceDate = LocalDateTime.now();
 		LocalDateTime shippingDate = invoiceDate.plusDays(3);
 
@@ -84,6 +81,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		invoiceEntity.setNote(invoiceDTO.getNote());
 		invoiceEntity.setOtherShippingAddress(otherShippingAddress);
 		invoiceEntity.setUserInvoiceIndex(userInvoiceIndex);
+		invoiceEntity.setCouponID(invoiceDTO.getCouponID());
 
 		invoiceEntity = invoiceRepository.save(invoiceEntity);
 		// after insert invoice, increase totalInvoices of user
@@ -98,9 +96,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 		// SHIPPINGINFO invoiceID, fullname, phone, address
 		ShippingInfo shippingInfo = new ShippingInfo();
 		shippingInfo.setInvoiceID(invoiceID);
-		shippingInfo.setAddress(invoiceDTO.getShippingInfo().getAddress());
-		shippingInfo.setFullname(invoiceDTO.getShippingInfo().getFullname());
-		shippingInfo.setPhone(invoiceDTO.getShippingInfo().getPhone());
+		shippingInfo.setAddress(invoiceDTO.getAddress());
+		shippingInfo.setFullname(invoiceDTO.getFullname());
+		shippingInfo.setPhone(invoiceDTO.getPhone());
 		shippingInfoRepository.save(shippingInfo);
 
 		/*
@@ -117,7 +115,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 			detailedInvoice.setTotalPrice(detailedInvoiceDTO.getTotalPrice());
 			detailedInvoiceRepository.save(detailedInvoice);
 		}
-
 	}
 
 	public List<DetailedInvoiceDTO> getDetailedInvoices(List<DetailedInvoiceDTO> detailedInvoices) {
@@ -138,13 +135,18 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return userRepository.findShippingInfoByEmail(email);
 	}
 
-	public int calculateTotalInvoiceCost(List<DetailedInvoiceDTO> detailedInvoices) {
+	public int calculateTotalInvoiceCost(List<DetailedInvoiceDTO> detailedInvoices, int couponID) {
 		int totalInvoiceCost = 0;
 		for (DetailedInvoiceDTO detailedInvoice : detailedInvoices) {
 			totalInvoiceCost += detailedInvoice.getTotalPrice();
 		}
-		return totalInvoiceCost;
-
+		try {
+			Coupon coupon = couponService.findCouponByID(couponID);
+			return coupon.getCouponType() == CouponType.MONEY ? (totalInvoiceCost - coupon.getValue()) : totalInvoiceCost - Math.round((float)totalInvoiceCost * (float)coupon.getValue() / 100);
+		}
+		catch (CouponNotFoundException cnfe){
+			return totalInvoiceCost;
+		}
 	}
 
 	@Override
@@ -165,7 +167,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 		InvoiceDTO invoiceDTO = new InvoiceDTO();
 		invoiceDTO.setDetailedInvoices(detailedInvoices);
 		invoiceDTO.setNote(invoice.getNote());
-		invoiceDTO.setShippingInfo(shippingInfo);
+		invoiceDTO.setAddress(shippingInfo.getAddress());
+		invoiceDTO.setPhone(shippingInfo.getPhone());
+		invoiceDTO.setFullname(shippingInfo.getFullname());
 		invoiceDTO.setStatusInvoice(invoice.getStatusInvoice());
 		invoiceDTO.setTotalPrice(invoice.getTotalCost());
 		invoiceDTO.setShippingDate(invoice.getShippingDate());
@@ -177,7 +181,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public void updateReviewStatus(int invoiceID, int productID) {
 		detailedInvoiceRepository.updateRatingInfoByProductID(invoiceID, productID);
-
 	}
-
+	@Override
+	public Invoice getByCouponIDAndUserID(int couponID, int userID) {
+		return invoiceRepository.findByUserIDAndCouponID(userID, couponID).orElseThrow(InvoiceNotFoundException::new);
+	}
 }

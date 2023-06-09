@@ -8,6 +8,6 @@ public class UserNotFoundException extends NoSuchElementException {
         super(message);
     }
     public UserNotFoundException(){
-        super("Không tìm thấy người dùng bạn cần tìm");
+        super("User does not exist");
     }
 }
