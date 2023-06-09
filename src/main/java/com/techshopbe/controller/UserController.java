@@ -3,6 +3,8 @@ package com.techshopbe.controller;
 import java.io.Console;
 import java.util.List;
 
+import com.techshopbe.dto.StringResponseDTO;
+import com.techshopbe.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,5 +65,23 @@ public class UserController {
 			return new ResponseEntity<String>("Delete Failed", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+	@GetMapping(value = "/email/{email}")
+	public Object getUserByEmail(@PathVariable String email) {
+		try {
+
+			User user = userService.getByEmail(email);
+			return ResponseEntity.ok(user);
+		} catch(UserNotFoundException unfe) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StringResponseDTO(unfe.getMessage()));
+		}
+	}
+	@GetMapping(value = "/id/{id}")
+	public Object getUserByID(@PathVariable int id) {
+		try {
+			User user = userService.getById(id);
+			return ResponseEntity.ok(user);
+		} catch(UserNotFoundException unfe) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new StringResponseDTO(unfe.getMessage()));
+		}
+	}
 }
