@@ -42,11 +42,9 @@ public class UserController {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
 		}
 	}
-	@GetMapping(value = "/shippingInfo")
-	public Object getShippingInfo() {
+	@GetMapping(value = "/shippingInfo/{email}")
+	public Object getShippingInfo(@PathVariable String email) {
 		try {
-			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			String email = userDetails.getUsername();
 			
 			ShippingInfoDTO shippingInfoDTO = userService.getShippingInfoByEmail(email);
 			
