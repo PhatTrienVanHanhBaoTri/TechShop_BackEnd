@@ -45,11 +45,11 @@ public class InvoiceController {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
 		}
 	}
-	@GetMapping(value = "/user")
-	public Object getAllUserInvoices() {
+	@GetMapping(value = "/user/{userID}")
+	public Object getAllUserInvoices(@PathVariable int userID) {
 		
 		try {
-			List<Invoice> userInvoices = invoiceService.getAllUserInvoices();
+			List<Invoice> userInvoices = invoiceService.getAllUserInvoices(userID);
 			return new ResponseEntity<List<Invoice>>(userInvoices, HttpStatus.OK);
 		} catch(Exception e) {
 			return new ResponseEntity<String>("Failed", HttpStatus.BAD_REQUEST);
