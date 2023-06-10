@@ -97,6 +97,6 @@ public class AuthenticationController {
 		catch (OtpIncorrectException | OtpExpiredException e){
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StringResponseDTO(e.getMessage()));
 		}
-		return ResponseEntity.ok("");
+		return ResponseEntity.ok(new StringResponseDTO("Your password has been reset"));
 	}
 }
