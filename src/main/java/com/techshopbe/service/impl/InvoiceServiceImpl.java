@@ -150,12 +150,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public List<Invoice> getAllUserInvoices() {
-		// TODO Auto-generated method stub
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-
-		return invoiceRepository.findByUserID(userDetails.getUserID());
+	public List<Invoice> getAllUserInvoices(int userID) {
+		return invoiceRepository.findByUserID(userID);
 	}
 
 	@Override
