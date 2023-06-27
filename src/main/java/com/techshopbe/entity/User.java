@@ -2,14 +2,12 @@ package com.techshopbe.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.techshopbe.dto.UserRegisterDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +18,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "USERS")
+@Getter
+@Setter
 public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,7 @@ public class User implements UserDetails {
 	private int roleID;
 	private String gender;
 	private int totalInvoices = 0;
+	private boolean isLocked = true;
 
 	public User() {};
 	public User(int userID, String email, String fullname, String pswd, String dOB, String phone, String address,

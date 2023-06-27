@@ -1,11 +1,11 @@
 package com.techshopbe.entity;
 
+import com.techshopbe.entity.constant.CouponType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.context.annotation.Primary;
 
 import java.util.Date;
 

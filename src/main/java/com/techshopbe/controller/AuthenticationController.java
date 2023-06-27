@@ -45,6 +45,11 @@ public class AuthenticationController {
 
 			User user = userService.getByEmail(request.getEmail());
 
+			if (!user.isLocked())
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( StringResponseDTO.builder()
+						.message("Vui lòng xác thực tài khoản trước khi đăng nhập")
+						.build());
+
 			String jwtToken = jwtService.generateJwtToken(user);
 			return ResponseEntity.ok(AuthenticationDTO.builder()
 					.jwtToken(jwtToken)
@@ -65,7 +70,7 @@ public class AuthenticationController {
 	public Object add(@RequestBody UserRegisterDTO userDTO) {
 		try {
 			userService.add(new User(userDTO));
-			return new ResponseEntity<String>("Add Successfully!", HttpStatus.CREATED);
+			return new ResponseEntity<String>("Email đã được gửi bạn vui lòng xác thực email để có thể đăng nhập", HttpStatus.CREATED);
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			if(!e.getMessage().equals("Email already existed")) {
@@ -73,6 +78,14 @@ public class AuthenticationController {
 			}
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@PostMapping("/validateOTPConfirmEmail")
+	public ResponseEntity<Object> validateOTPConfirmEmail(@RequestBody ConfirmEmailDTO request) throws OtpIncorrectException, OtpExpiredException {
+		userService.validateOTPConfirmEmail(request);
+		return ResponseEntity.ok(StringResponseDTO.builder()
+				.message("Mã OTP hợp lệ")
+				.build());
 	}
 
 	@PostMapping(value = "/forgotPassword/{userEmail}")
