@@ -1,19 +1,15 @@
 package com.techshopbe.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 import com.techshopbe.entity.*;
+import com.techshopbe.entity.constant.CouponType;
 import com.techshopbe.exception.CouponNotFoundException;
 import com.techshopbe.exception.InvoiceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
 import com.techshopbe.dto.DetailedInvoiceDTO;
 import com.techshopbe.dto.InvoiceDTO;
 import com.techshopbe.dto.ShippingInfoDTO;
@@ -22,7 +18,6 @@ import com.techshopbe.repository.InvoiceRepository;
 import com.techshopbe.repository.ProductRepository;
 import com.techshopbe.repository.ShippingInfoRepository;
 import com.techshopbe.repository.UserRepository;
-import com.techshopbe.security.CustomUserDetails;
 import com.techshopbe.service.InvoiceService;
 
 @Service

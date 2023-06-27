@@ -1,7 +1,7 @@
 package com.techshopbe.dto;
 
 import com.techshopbe.entity.Coupon;
-import com.techshopbe.entity.CouponType;
+import com.techshopbe.entity.constant.CouponType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
