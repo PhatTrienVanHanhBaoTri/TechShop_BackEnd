@@ -20,15 +20,16 @@ import java.util.Random;
 public class CouponDTO {
     private static final int CODE_LENGTH = 6;
     private int value;
+    private String otp;
     private String expiry;
     private CouponType couponType;
 
-    public Coupon convertToCoupon(CouponDTO dto) throws ParseException {
+    public Coupon convertToCoupon() throws ParseException {
         Coupon coupon = new Coupon();
-        coupon.setExpiry(stringToDate(dto.getExpiry()));
-        coupon.setCouponType(dto.getCouponType());
-        coupon.setCouponCode(createRandomCode());
-        coupon.setValue(dto.getValue());
+        coupon.setExpiry(stringToDate(this.getExpiry()));
+        coupon.setCouponType(this.getCouponType());
+        coupon.setValue(this.getValue());
+        coupon.setCouponCode(this.getOtp() == null ? createRandomCode() : this.getOtp());
 
         return coupon;
     }

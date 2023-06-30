@@ -1,6 +1,6 @@
 package com.techshopbe.exception;
 
-public class OtpIncorrectException extends Exception{
+public class OtpIncorrectException extends InvalidException{
     public OtpIncorrectException(String message) {
         super(message);
     }

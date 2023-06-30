@@ -2,6 +2,8 @@ package com.techshopbe.controller;
 
 import java.util.List;
 
+import com.techshopbe.service.RoleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techshopbe.entity.Role;
-import com.techshopbe.service.RoleService;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/v1/role")
 public class RoleController {
-
-	@Autowired
-	private RoleService roleService;
+	private final RoleService roleService;
 	
 	@GetMapping(value = "")
 	public Object index() {

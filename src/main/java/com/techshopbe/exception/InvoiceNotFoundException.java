@@ -2,7 +2,7 @@ package com.techshopbe.exception;
 
 import java.util.NoSuchElementException;
 
-public class InvoiceNotFoundException extends NoSuchElementException {
+public class InvoiceNotFoundException extends NotFoundException {
     public InvoiceNotFoundException(String message) {
         super(message);
     }

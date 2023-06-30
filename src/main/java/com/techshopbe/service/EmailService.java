@@ -1,4 +1,4 @@
-package com.techshopbe.service.impl;
+package com.techshopbe.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
