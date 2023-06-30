@@ -1,29 +1,23 @@
 package com.techshopbe.controller;
 
-import java.io.Console;
 import java.util.List;
 
 import com.techshopbe.dto.StringResponseDTO;
 import com.techshopbe.exception.UserNotFoundException;
+import com.techshopbe.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techshopbe.dto.DetailedProductDTO;
 import com.techshopbe.dto.ShippingInfoDTO;
-import com.techshopbe.dto.UserDTO;
 import com.techshopbe.entity.User;
-import com.techshopbe.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
@@ -55,6 +49,8 @@ public class UserController {
 		}
 	}
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAuthority('1')")
+	@SecurityRequirement(name = "Bearer Authentication")
 	public Object delete(@PathVariable int id) {
 		try {
 			userService.delete(id);

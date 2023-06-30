@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
-	private UserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 
 	private final JwtService jwtService;
 

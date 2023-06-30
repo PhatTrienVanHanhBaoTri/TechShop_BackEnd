@@ -1,6 +1,6 @@
 package com.techshopbe.exception;
 
-public class OtpExpiredException extends Exception{
+public class OtpExpiredException extends InvalidException{
     public OtpExpiredException(String message) {
         super(message);
     }

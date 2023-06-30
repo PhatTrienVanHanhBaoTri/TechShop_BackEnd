@@ -1,22 +1,17 @@
-package com.techshopbe.service.impl;
+package com.techshopbe.service;
 
 import com.techshopbe.dto.CouponDTO;
 import com.techshopbe.entity.Coupon;
-import com.techshopbe.entity.Invoice;
 import com.techshopbe.exception.CouponNotFoundException;
 import com.techshopbe.repository.CouponRepository;
-import com.techshopbe.service.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 @Service
 @Slf4j
@@ -28,9 +23,9 @@ public class CouponService {
     }
 
     public Coupon addCoupon(CouponDTO dto) throws ParseException {
-        Coupon coupon = dto.convertToCoupon(dto);
+        Coupon coupon = dto.convertToCoupon();
         couponRepository.save(coupon);
-        return couponRepository.findCouponByCouponCode(coupon.getCouponCode()).orElse(null);
+        return coupon;
     }
 
     public Coupon updateCoupon(int couponID, CouponDTO dto) throws ParseException {
@@ -39,7 +34,8 @@ public class CouponService {
         coupon.setExpiry(stringToDate(dto.getExpiry()));
         coupon.setCouponType(dto.getCouponType());
         couponRepository.save(coupon);
-        return couponRepository.findCouponByID(couponID).orElse(null);
+        log.trace("Coupon Updated: " + coupon);
+        return coupon;
     }
 
     private Date stringToDate(String dob) throws ParseException {
@@ -47,9 +43,8 @@ public class CouponService {
     }
 
     public void deleteCoupon(int couponID) {
-        log.trace("deleted Coupon ID: " + couponID);
         couponRepository.deleteById(couponID);
-        log.trace("deleted Coupon ID: " + couponID);
+        log.trace("Coupon Deleted: " + couponID);
     }
     public List<Coupon> findAllCoupon(){
         return couponRepository.findAll();

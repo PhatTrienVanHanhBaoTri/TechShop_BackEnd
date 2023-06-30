@@ -1,7 +1,5 @@
 package com.techshopbe.controller;
 
-import java.util.Date;
-
 import com.techshopbe.dto.*;
 import com.techshopbe.entity.User;
 import com.techshopbe.exception.OtpExpiredException;
@@ -10,20 +8,13 @@ import com.techshopbe.exception.UserNotFoundException;
 import com.techshopbe.security.JwtService;
 import com.techshopbe.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,9 +36,9 @@ public class AuthenticationController {
 
 			User user = userService.getByEmail(request.getEmail());
 
-			if (!user.isLocked())
+			if (user.isLocked())
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( StringResponseDTO.builder()
-						.message("Vui lòng xác thực tài khoản trước khi đăng nhập")
+						.message("Please confirm your email before log in.")
 						.build());
 
 			String jwtToken = jwtService.generateJwtToken(user);
