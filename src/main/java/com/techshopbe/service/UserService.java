@@ -90,11 +90,11 @@ public class UserService {
 				new Date(System.currentTimeMillis()),
 				new Date(System.currentTimeMillis() + OTP_EXPIRATION_TIME),
 				otp,
-				OTP_Type.RESET_PASSWORD));
+				1));
 	}
 
 	public void resetPassword(ResetPasswordDTO dto) {
-		List<OTP> otpList = otpRepository.findOTPByRecipientEmailAndAndOtpTypeOrderByDateDesc(dto.getUserEmail(), OTP_Type.RESET_PASSWORD);
+		List<OTP> otpList = otpRepository.findOTPByRecipientEmailAndAndOtpTypeOrderByDateDesc(dto.getUserEmail(), 1);
 		if (otpList.size() == 0)
 			throw new UserNotFoundException();
 		OTP recentOTP = otpList.get(0);
@@ -143,7 +143,7 @@ public class UserService {
 				new Date(System.currentTimeMillis()),
 				new Date(System.currentTimeMillis() + OTP_EXPIRATION_TIME),
 				otp,
-				OTP_Type.CONFIRM_EMAIL);
+				2);
 
 		saveOtpToDatabase(otpConfirmEmail);
 	}
@@ -158,7 +158,10 @@ public class UserService {
 	}
 	public void validateOTPConfirmEmail(ConfirmEmailDTO dto){
 
-		List<OTP> otpConfirmEmail = otpRepository.findOTPByRecipientEmailAndAndOtpTypeOrderByDateDesc(dto.getEmailAddress(), OTP_Type.CONFIRM_EMAIL);
+		List<OTP> otpConfirmEmail = otpRepository.findOTPByRecipientEmailAndAndOtpTypeOrderByDateDesc(dto.getEmailAddress(), 2);
+
+		if (otpConfirmEmail.size() == 0)
+			throw new OtpIncorrectException();
 
 		OTP recentOtpConfirmEmail = otpConfirmEmail.get(0);
 

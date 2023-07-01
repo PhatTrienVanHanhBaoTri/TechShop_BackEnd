@@ -10,5 +10,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OtpRepository extends JpaRepository<OTP, Integer> {
-    List<OTP> findOTPByRecipientEmailAndAndOtpTypeOrderByDateDesc(@Param("recipientEmail") String recipientEmail,@Param("otpType") OTP_Type type);
+    @Query(
+            value = "SELECT * " +
+                    "FROM OTP o " +
+                    "WHERE o.recipient_email = ?1 " +
+                    "AND o.otp_type = ?2 " +
+                    "ORDER BY o.date DESC",
+            nativeQuery = true
+    )
+    List<OTP> findOTPByRecipientEmailAndAndOtpTypeOrderByDateDesc(String recipientEmail, int type);
 }

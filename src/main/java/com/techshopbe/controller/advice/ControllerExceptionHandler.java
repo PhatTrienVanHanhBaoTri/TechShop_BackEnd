@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.security.core.AuthenticationException;
 
 import org.springframework.security.access.AccessDeniedException;
 import java.text.ParseException;
@@ -16,6 +17,16 @@ import java.util.Date;
 @ControllerAdvice
 @Slf4j
 public class ControllerExceptionHandler {
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorMessage> authenticationExceptionHandler(Exception ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                "Your email or password is wrong",
+                request.getDescription(false));
+        log.error(String.valueOf(message));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+    }
     @ExceptionHandler(ParseException.class)
     public ResponseEntity<ErrorMessage> parseExceptionHandler(Exception ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(

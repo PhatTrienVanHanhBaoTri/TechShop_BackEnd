@@ -1,12 +1,7 @@
 package com.techshopbe.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techshopbe.entity.constant.OTP_Type;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,14 +18,20 @@ import java.util.Date;
 public class OTP {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "recipient_email")
     private String recipientEmail;
+    @Column(name = "date")
     private Date date;
+    @Column(name = "expiry")
     private Date expiry;
+    @Column(name = "otp")
     private String OTP;
-    private OTP_Type otpType;
+    @Column(name = "otp_type")
+    private int otpType;
 
-    public OTP(String recipientEmail, Date date, Date expiry, String otp, OTP_Type otpType) {
+    public OTP(String recipientEmail, Date date, Date expiry, String otp, int otpType) {
         this.recipientEmail = recipientEmail;
         this.date = date;
         this.expiry = expiry;

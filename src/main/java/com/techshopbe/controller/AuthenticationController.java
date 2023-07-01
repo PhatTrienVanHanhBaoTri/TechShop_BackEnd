@@ -26,35 +26,28 @@ public class AuthenticationController {
 
 	@PostMapping("/login")
 	public Object login(@RequestBody AuthenticationRequestDTO request) {
-		try{
-			Authentication authentication =  authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(
-							request.getEmail(),
-							request.getPswd()
-					)
-			);
+		Authentication authentication =  authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(
+						request.getEmail(),
+						request.getPswd()
+				)
+		);
 
-			User user = userService.getByEmail(request.getEmail());
+		User user = userService.getByEmail(request.getEmail());
 
-			if (user.isLocked())
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( StringResponseDTO.builder()
-						.message("Please confirm your email before log in.")
-						.build());
-
-			String jwtToken = jwtService.generateJwtToken(user);
-			return ResponseEntity.ok(AuthenticationDTO.builder()
-					.jwtToken(jwtToken)
-					.userID(user.getUserID())
-					.email(user.getEmail())
-					.fullName(user.getFullname())
-					.roleID(user.getRoleID())
-					.build());
-		}
-		catch (AuthenticationException e){
+		if (user.isLocked())
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( StringResponseDTO.builder()
-					.message("Tài khoản hoăc mật khẩu không hợp lệ")
+					.message("Please confirm your email before log in.")
 					.build());
-		}
+
+		String jwtToken = jwtService.generateJwtToken(user);
+		return ResponseEntity.ok(AuthenticationDTO.builder()
+				.jwtToken(jwtToken)
+				.userID(user.getUserID())
+				.email(user.getEmail())
+				.fullName(user.getFullname())
+				.roleID(user.getRoleID())
+				.build());
 	}
 
 	@PostMapping(value = "/register")
