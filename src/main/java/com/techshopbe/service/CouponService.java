@@ -32,6 +32,7 @@ public class CouponService {
         Coupon coupon = findCouponByID(couponID);
         coupon.setValue(dto.getValue());
         coupon.setExpiry(stringToDate(dto.getExpiry()));
+        coupon.setCouponCode(dto.getCouponCode());
         coupon.setCouponType(dto.getCouponType());
         couponRepository.save(coupon);
         log.trace("Coupon Updated: " + coupon);

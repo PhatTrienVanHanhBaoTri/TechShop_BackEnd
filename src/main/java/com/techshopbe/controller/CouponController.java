@@ -40,7 +40,7 @@ public class CouponController {
     @PutMapping(value = "/{couponID}")
     @PreAuthorize("hasAuthority('1')")
     @SecurityRequirement(name = "Bearer Authentication")
-    public ResponseEntity<Object> updateProduct(@RequestBody CouponDTO couponDTO, @PathVariable int couponID) throws ParseException {
+    public ResponseEntity<Object> updateCoupon(@RequestBody CouponDTO couponDTO, @PathVariable int couponID) throws ParseException {
         return ResponseEntity.ok(couponService.updateCoupon(couponID, couponDTO));
     }
 
