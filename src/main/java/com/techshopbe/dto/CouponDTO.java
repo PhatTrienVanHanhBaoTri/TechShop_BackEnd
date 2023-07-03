@@ -20,7 +20,7 @@ import java.util.Random;
 public class CouponDTO {
     private static final int CODE_LENGTH = 6;
     private int value;
-    private String otp;
+    private String couponCode;
     private String expiry;
     private CouponType couponType;
 
@@ -29,7 +29,7 @@ public class CouponDTO {
         coupon.setExpiry(stringToDate(this.getExpiry()));
         coupon.setCouponType(this.getCouponType());
         coupon.setValue(this.getValue());
-        coupon.setCouponCode(this.getOtp() == null ? createRandomCode() : this.getOtp());
+        coupon.setCouponCode(this.getCouponCode() == null ? createRandomCode() : this.getCouponCode());
 
         return coupon;
     }
