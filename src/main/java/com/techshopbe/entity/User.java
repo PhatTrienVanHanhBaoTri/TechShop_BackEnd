@@ -64,68 +64,6 @@ public class User implements UserDetails {
 		this.totalInvoices = 0;
 	}
 
-	public int getTotalInvoices() {
-		return totalInvoices;
-	}
-	public void setTotalInvoices(int totalInvoices) {
-		this.totalInvoices = totalInvoices;
-	}
-	public int getUserID() {
-		return userID;
-	}
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getFullname() {
-		return fullname;
-	}
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
-	public String getPswd() {
-		return pswd;
-	}
-	public void setPswd(String pswd) {
-		this.pswd = pswd;
-	}
-	public String getDOB() {
-		return DOB;
-	}
-	public void setDOB(String dOB) {
-		DOB = dOB;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public int getRoleID() {
-		return roleID;
-	}
-	public void setRoleID(int roleID) {
-		this.roleID = roleID;
-	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-
 	@Override
 	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
