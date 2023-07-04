@@ -5,9 +5,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "SHIPPINGINFO")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ShippingInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,59 +24,4 @@ public class ShippingInfo {
 	private String fullname;
 	private String phone;
 	private String address;
-
-	public ShippingInfo() {
-	}
-
-
-	public ShippingInfo(int shippingInfoID, int invoiceID, String fullname, String phone, String address) {
-		super();
-		this.shippingInfoID = shippingInfoID;
-		this.invoiceID = invoiceID;
-		this.fullname = fullname;
-		this.phone = phone;
-		this.address = address;
-	}
-
-
-	public int getShippingInfoID() {
-		return shippingInfoID;
-	}
-
-	public void setShippingInfoID(int shippingInfoID) {
-		this.shippingInfoID = shippingInfoID;
-	}
-
-	public int getInvoiceID() {
-		return invoiceID;
-	}
-
-	public void setInvoiceID(int invoiceID) {
-		this.invoiceID = invoiceID;
-	}
-
-	public String getFullname() {
-		return fullname;
-	}
-
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 }
