@@ -54,7 +54,7 @@ public class AuthenticationController {
 	public Object add(@RequestBody UserRegisterDTO userDTO) {
 		try {
 			userService.add(new User(userDTO));
-			return new ResponseEntity<String>("Email đã được gửi bạn vui lòng xác thực email để có thể đăng nhập", HttpStatus.CREATED);
+			return new ResponseEntity<String>("Please check your mail for your OTP to activate your account", HttpStatus.CREATED);
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
 			if(!e.getMessage().equals("Email already existed")) {
