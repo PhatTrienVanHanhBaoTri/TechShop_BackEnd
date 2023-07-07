@@ -123,10 +123,6 @@ public class UserService {
 		// Tìm email trong bảng user
 		User user = getByEmail(userEmail);
 
-		if (user == null) {
-			throw new UserNotFoundException();
-		}
-
 		// Tạo OTP
 		String otp = generateOTP();
 
