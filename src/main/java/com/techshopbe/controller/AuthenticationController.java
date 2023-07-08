@@ -8,6 +8,7 @@ import com.techshopbe.exception.UserNotFoundException;
 import com.techshopbe.security.JwtService;
 import com.techshopbe.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("api/v1/auth")
 public class AuthenticationController {
 	private final AuthenticationManager authenticationManager;
@@ -51,17 +53,9 @@ public class AuthenticationController {
 	}
 
 	@PostMapping(value = "/register")
-	public Object add(@RequestBody UserRegisterDTO userDTO) {
-		try {
-			userService.add(new User(userDTO));
-			return new ResponseEntity<String>("Please check your mail for your OTP to activate your account", HttpStatus.CREATED);
-		} catch(Exception e) {
-			System.out.println(e.getMessage());
-			if(!e.getMessage().equals("Email already existed")) {
-				return new ResponseEntity<String>("Add Failed", HttpStatus.BAD_REQUEST);
-			}
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	public Object add(@RequestBody UserRegisterDTO userDTO) throws Exception {
+		userService.add(new User(userDTO));
+		return new ResponseEntity<String>("Please check your mail for your OTP to activate your account", HttpStatus.CREATED);
 	}
 
 	@PostMapping("/validateOTPConfirmEmail")
