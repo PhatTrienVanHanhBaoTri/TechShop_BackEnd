@@ -54,8 +54,8 @@ public class UserService {
 		if (entityHasSameEmail == null) {
 			String hashPassword = BCrypt.hashpw(user.getPswd(), BCrypt.gensalt());
 			user.setPswd(hashPassword);
-			sendOTPConfirmEmail(user.getEmail());
 			userRepository.save(user);
+			sendOTPConfirmEmail(user.getEmail());
 		} else {
 			throw new Exception("Email already existed");
 		}
